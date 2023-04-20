@@ -1,28 +1,38 @@
+from tkinter import *
 from mtranslate import translate
 
-def main():
-    # Inicjalizacja obiektu Translator
-    translator = translate
+def translate_word():
+    slowo = entry.get()
+    if slowo.lower() == 'q':
+        output.config(text="Wyszedłeś z programu.")
+        return
+    else:
+        try:
+            tlumaczenie_en = translate(slowo, "en")
+            tlumaczenie_de = translate(slowo, "de")
+            output.config(text=f"Tłumaczenie na angielski: {tlumaczenie_en}\nTłumaczenie na niemiecki: {tlumaczenie_de}")
 
-    while True:
-        # Wejściowe słowo do tłumaczenia
-        slowo = input("Podaj słowo lub zdanie do przetłumaczenia (lub wpisz samo 'q' aby wyjść z programu): ")
-        if slowo.lower() == 'q':
-            # Wyjście z pętli przy wprowadzeniu 'q'
-            print("Wyszedłeś z programu.")
-            break
-        else:
-            try:
-                # Tłumaczenie na język angielski
-                tlumaczenie_en = translator(slowo, "en")
-                print("Tłumaczenie na angielski: ", tlumaczenie_en)
+        except Exception as e:
+            output.config(text=f"Wystąpił nieoczekiwany błąd: {str(e)}")
 
-                # Tłumaczenie na język niemiecki
-                tlumaczenie_de = translator(slowo, "de")
-                print("Tłumaczenie na niemiecki: ", tlumaczenie_de)
+root = Tk()
+root.title("Translator")
+root.geometry("400x300")
 
-            except Exception as e:
-                print(f"Wystąpił nieoczekiwany błąd: {str(e)}")
+root.configure(bg="#FDFEFE")
 
-if __name__ == '__main__':
-    main()
+label = Label(root, text="Podaj słowo lub zdanie do przetłumaczenia (lub wpisz samo 'q' aby wyjść z programu): ",
+              bg="#FDFEFE", font=("Helvetica", 12), wraplength=300)
+label.pack(pady=10)
+
+entry = Entry(root, font=("Helvetica", 14))
+entry.pack(pady=10)
+
+button = Button(root, text="Tłumacz", command=translate_word, font=("Helvetica", 14),
+                bg="#3498DB", fg="white")
+button.pack()
+
+output = Label(root, wraplength=400, font=("Helvetica", 12), justify="left", bg="#FDFEFE", fg="#E74C3C")
+output.pack(pady=10)
+
+root.mainloop()
