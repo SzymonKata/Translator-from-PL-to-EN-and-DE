@@ -5,7 +5,7 @@ def translate_word():
     slowo = entry.get()
     if slowo.lower() == 'q':
         output.config(text="Wyszedłeś z programu.")
-        root.destroy()  # Close the Tkinter window
+        root.destroy() 
     else:
         try:
             tlumaczenie_en = translate(slowo, "en")
